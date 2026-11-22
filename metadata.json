@@ -1,0 +1,6 @@
+{
+  "name": "FitTrack",
+  "description": "FitTrack - Personal Fitness Tracker Java 17 Swing & SQLite OOP Desktop Application",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrack — Personal Fitness &amp; Analytics Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <!-- AUTHENTICATION SHELL -->
+    <main id="auth-shell" class="auth-shell">
+        <section class="auth-layout">
+            <aside class="auth-brand-panel">
+                <div>
+                    <p class="brand-kicker">FitTrack Platform</p>
+                    <h1 class="auth-headline">Precision tracking for workouts, hydration, sleep, and long-term goals.</h1>
+                    <p class="auth-lead" style="margin-top: 12px;">
+                        Built on a Java 17 object-oriented backend with SQLite JDBC persistence, PBKDF2 authentication, and real-time analytics.
+                    </p>
+                </div>
+                <ul class="auth-feature-list">
+                    <li>Eight polymorphic workout classes with MET calorie computation</li>
+                    <li>Weekly Mon–Sun workout planner, interval timer, and streak engine</li>
+                    <li>Hydration, sleep consistency, weight history, and milestone badges</li>
+                    <li>Regular &amp; Premium membership tiers with exportable CSV and PDF reports</li>
+                </ul>
+                <div class="auth-demo-note">
+                    <strong>Demo Account:</strong> <span class="tabular">alex@fittrack.com</span> / <span class="tabular">FitTrack@123</span>
+                </div>
+            </aside>
+
+            <!-- Login -->
+            <section id="view-login" class="auth-card">
+                <div class="auth-card-header">
+                    <h2>Sign in to FitTrack</h2>
+                    <p class="muted-text">Enter your credentials to open your fitness workspace</p>
+                </div>
+
+                <form id="login-form" class="stack-form" novalidate>
+                    <div class="form-group">
+                        <label for="login-email">Email address</label>
+                        <input id="login-email" type="email" required placeholder="alex@fittrack.com" autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input id="login-password" type="password" required placeholder="Enter password" autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Sign in</button>
+                </form>
+
+                <div class="auth-secondary-actions">
+                    <button type="button" id="fill-demo-btn" class="btn btn-secondary">Fill demo account</button>
+                    <button type="button" id="go-register-btn" class="btn btn-ghost">Create new account</button>
+                </div>
+            </section>
+
+            <!-- Register -->
+            <section id="view-register" class="auth-card hidden">
+                <div class="auth-card-header">
+                    <h2>Create your account</h2>
+                    <p class="muted-text">Set your membership tier, biometrics, and activity preference</p>
+                </div>
+
+                <form id="register-form" class="grid-form" novalidate>
+                    <div class="form-group">
+                        <label for="reg-name">Full name</label>
+                        <input id="reg-name" type="text" required placeholder="Jordan Taylor">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email address</label>
+                        <input id="reg-email" type="email" required placeholder="jordan@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password (min 6 chars)</label>
+                        <input id="reg-password" type="password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-confirm">Confirm password</label>
+                        <input id="reg-confirm" type="password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-tier">Membership tier</label>
+                        <select id="reg-tier">
+                            <option value="REGULAR">Regular Member</option>
+                            <option value="PREMIUM">Premium Member</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-preference">Activity preference</label>
+                        <select id="reg-preference">
+                            <option value="Balanced">Balanced</option>
+                            <option value="Cardio &amp; Endurance">Cardio &amp; Endurance</option>
+                            <option value="Strength &amp; Muscle">Strength &amp; Muscle</option>
+                            <option value="Mindfulness &amp; Flexibility">Mindfulness &amp; Flexibility</option>
+                            <option value="Weight Management">Weight Management</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-age">Age</label>
+                        <input id="reg-age" type="number" min="10" max="120" value="24" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-gender">Gender</label>
+                        <select id="reg-gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                            <option value="Not Specified">Not Specified</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-height">Height (cm)</label>
+                        <input id="reg-height" type="number" min="50" max="260" step="0.5" value="172" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-weight">Weight (kg)</label>
+                        <input id="reg-weight" type="number" min="20" max="350" step="0.5" value="70" required>
+                    </div>
+                    <div class="form-group span-2">
+                        <button type="submit" class="btn btn-primary btn-full">Create account</button>
+                    </div>
+                </form>
+
+                <div class="auth-secondary-actions">
+                    <button type="button" id="go-login-btn" class="btn btn-ghost">Already have an account? Sign in</button>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <!-- AUTHENTICATED SAAS SHELL -->
+    <div id="app-shell" class="app-shell hidden">
+        <div id="sidebar-backdrop" class="sidebar-backdrop hidden"></div>
+
+        <!-- 12-Item Dark Navy Sidebar -->
+        <aside id="sidebar" class="sidebar" aria-label="Primary Navigation">
+            <div class="sidebar-brand">
+                <div class="brand-lockup">
+                    <div class="brand-mark">FT</div>
+                    <div>
+                        <span class="brand-wordmark">FitTrack</span>
+                        <span class="brand-sub">Fitness Management</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Overview</div>
+                <button type="button" class="nav-item active" data-page="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button type="button" class="nav-item" data-page="workouts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5h11M6.5 17.5h11M3 10v4M21 10v4M7 6v12M17 6v12M7 12h10"/></svg>
+                    <span>My Workouts</span>
+                </button>
+                <button type="button" class="nav-item" data-page="planner">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                    <span>Workout Planner</span>
+                </button>
+                <button type="button" class="nav-item" data-page="goals">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+                    <span>Fitness Goals</span>
+                </button>
+
+                <div class="nav-section-label">Health Logs</div>
+                <button type="button" class="nav-item" data-page="activities">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    <span>Activity Tracker</span>
+                </button>
+                <button type="button" class="nav-item" data-page="water">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                    <span>Water Tracker</span>
+                </button>
+                <button type="button" class="nav-item" data-page="sleep">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <span>Sleep Tracker</span>
+                </button>
+                <button type="button" class="nav-item" data-page="weight">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m7 14 4-4 4 3 5-6"/></svg>
+                    <span>Weight History</span>
+                </button>
+
+                <div class="nav-section-label">Insights &amp; Account</div>
+                <button type="button" class="nav-item" data-page="achievements">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                    <span>Achievements</span>
+                </button>
+                <button type="button" class="nav-item" data-page="reports">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+                    <span>Progress &amp; Analytics</span>
+                </button>
+                <button type="button" class="nav-item" data-page="profile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Profile</span>
+                </button>
+                <button type="button" class="nav-item" data-page="settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user-meta">
+                    <div id="sidebar-user-name" class="sidebar-user-name">User</div>
+                    <div id="sidebar-user-tier" class="sidebar-user-tier">Regular Member</div>
+                </div>
+                <button type="button" id="logout-btn" class="btn btn-danger-outline btn-full">Sign out</button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <div class="workspace-main">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button type="button" id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle navigation">&#9776;</button>
+                    <div>
+                        <div id="topbar-welcome" class="topbar-welcome">Welcome back</div>
+                        <div id="topbar-date" class="topbar-date tabular">--</div>
+                    </div>
+                </div>
+
+                <div class="topbar-center">
+                    <div class="topbar-search-wrap">
+                        <svg class="topbar-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input id="topbar-search-input" class="topbar-search-input" type="text" placeholder="Search workouts or plans..." autocomplete="off">
+                    </div>
+                    <div id="search-popover" class="search-popover hidden"></div>
+                </div>
+
+                <div class="topbar-actions">
+                    <button type="button" id="topbar-notif-btn" class="icon-btn" aria-label="Notifications">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span id="notif-badge" class="notif-count-tag hidden">0</span>
+                    </button>
+
+                    <div id="notif-popover" class="popover-panel hidden">
+                        <div class="popover-head">
+                            <strong>Notifications</strong>
+                            <button type="button" id="notif-read-all-btn" class="link-btn">Mark all read</button>
+                        </div>
+                        <div id="notif-list" class="popover-list"></div>
+                    </div>
+
+                    <button type="button" id="topbar-profile-btn" class="profile-trigger" aria-label="Account menu">
+                        <span id="topbar-avatar" class="avatar-square">U</span>
+                        <span id="topbar-profile-name">Account</span>
+                    </button>
+
+                    <div id="profile-popover" class="popover-panel compact hidden">
+                        <button type="button" class="dropdown-item" data-nav="profile">Profile &amp; Membership</button>
+                        <button type="button" class="dropdown-item" data-nav="settings">Settings &amp; Theme</button>
+                        <button type="button" class="dropdown-item" data-nav="achievements">Achievements</button>
+                        <div class="divider-line" style="margin: 4px 0;"></div>
+                        <button type="button" id="popover-logout-btn" class="dropdown-item danger">Sign out</button>
+                    </div>
+
+                    <button type="button" id="topbar-quick-workout" class="btn btn-primary">+ Quick Workout</button>
+                </div>
+            </header>
+
+            <main class="viewport-content">
+                <!-- 1. DASHBOARD -->
+                <section id="page-dashboard" class="page-view">
+                    <div class="welcome-banner">
+                        <div>
+                            <h1 id="dash-greeting">Welcome back</h1>
+                            <p id="dash-subtitle">Your activity, targets, and weekly training overview</p>
+                        </div>
+                        <div class="inline-actions">
+                            <button type="button" id="dash-quick-workout-btn" class="btn btn-primary">+ Log Workout</button>
+                            <button type="button" id="dash-quick-water-btn" class="btn btn-secondary">+250 ml Water</button>
+                            <button type="button" id="dash-quick-steps-btn" class="btn btn-secondary">+1,500 Steps</button>
+                        </div>
+                    </div>
+
+                    <!-- Range Filter -->
+                    <div class="page-header-row">
+                        <div class="range-bar">
+                            <div class="segmented-filter" id="dash-range-bar">
+                                <button type="button" class="range-btn active" data-range="7d">7 Days</button>
+                                <button type="button" class="range-btn" data-range="30d">30 Days</button>
+                                <button type="button" class="range-btn" data-range="3m">3 Months</button>
+                                <button type="button" class="range-btn" data-range="6m">6 Months</button>
+                                <button type="button" class="range-btn" data-range="custom">Custom</button>
+                            </div>
+                            <div id="dash-custom-range" class="inline-actions hidden">
+                                <input id="dash-from" type="date" class="compact-input">
+                                <input id="dash-to" type="date" class="compact-input">
+                                <button type="button" id="dash-custom-apply" class="btn btn-secondary btn-sm">Apply</button>
+                            </div>
+                        </div>
+                        <span id="dash-tier-hint" class="muted-meta"></span>
+                    </div>
+
+                    <!-- 6 KPI Cards -->
+                    <div class="kpi-grid-6">
+                        <article class="card kpi-card">
+                            <div class="kpi-top">
+                                <div>
+                                    <div class="kpi-label">Daily Steps</div>
+                                    <div id="kpi-steps" class="kpi-value tabular">0</div>
+                                </div>
+                                <div class="kpi-icon-box">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                </div>
+                            </div>
+                            <div class="kpi-meta-row">
+                                <span id="kpi-steps-delta" class="delta-flat">vs prev period</span>
+                                <span id="kpi-steps-sub" class="muted-meta tabular">Target: 8,000</span>
+                            </div>
+                            <div class="progress-track"><div id="kpi-steps-bar" class="progress-fill green"></div></div>
+                            <canvas id="spark-steps" class="sparkline-canvas"></canvas>
+                        </article>
+
+                        <article class="card kpi-card">
+                            <div class="kpi-top">
+                                <div>
+                                    <div class="kpi-label">Calories Burned</div>
+                                    <div id="kpi-calories" class="kpi-value tabular">0 kcal</div>
+                                </div>
+                                <div class="kpi-icon-box amber">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                                </div>
+                            </div>
+                            <div class="kpi-meta-row">
+                                <span id="kpi-cal-delta" class="delta-flat">vs prev period</span>
+                                <span id="kpi-calories-sub" class="muted-meta tabular">Target: 500 kcal</span>
+                            </div>
+                            <div class="progress-track"><div id="kpi-cal-bar" class="progress-fill amber"></div></div>
+                            <canvas id="spark-calories" class="sparkline-canvas"></canvas>
+                        </article>
+
+                        <article class="card kpi-card">
+                            <div class="kpi-top">
+                                <div>
+                                    <div class="kpi-label">Active Minutes</div>
+                                    <div id="kpi-duration" class="kpi-value tabular">0 min</div>
+                                </div>
+                                <div class="kpi-icon-box">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                                </div>
+                            </div>
+                            <div class="kpi-meta-row">
+                                <span id="kpi-dur-delta" class="delta-flat">vs prev period</span>
+                                <span id="kpi-duration-sub" class="muted-meta tabular">Weekly: 0 min</span>
+                            </div>
+                            <div class="progress-track"><div id="kpi-dur-bar" class="progress-fill green"></div></div>
+                            <canvas id="spark-duration" class="sparkline-canvas"></canvas>
+                        </article>
+
+                        <article class="card kpi-card">
+                            <div class="kpi-top">
+                                <div>
+                                    <div class="kpi-label">Water Intake</div>
+                                    <div id="kpi-water" class="kpi-value tabular">0 ml</div>
+                                </div>
+                                <div class="kpi-icon-box blue">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                                </div>
+                            </div>
+                            <div class="kpi-meta-row">
+                                <span id="kpi-water-pct-label" class="delta-flat">0% of goal</span>
+                                <span id="kpi-water-sub" class="muted-meta tabular">Target: 2,500 ml</span>
+                            </div>
+                            <div class="progress-track"><div id="kpi-water-bar" class="progress-fill blue"></div></div>
+                            <canvas id="spark-sessions" class="sparkline-canvas"></canvas>
+                        </article>
+
+                        <article class="card kpi-card">
+                            <div class="kpi-top">
+                                <div>
+                                    <div class="kpi-label">Weekly Workouts</div>
+                                    <div id="kpi-weekly-workouts" class="kpi-value tabular">0</div>
+                                </div>
+                                <div class="kpi-icon-box">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5h11M6.5 17.5h11M7 6v12M17 6v12M7 12h10"/></svg>
+                                </div>
+                            </div>
+                            <div class="kpi-meta-row">
+                                <span id="kpi-sess-delta" class="delta-flat">vs prev period</span>
+                                <span id="kpi-weekly-sub" class="muted-meta tabular">Target: 4 sessions</span>
+                            </div>
+                            <div class="progress-track"><div id="kpi-weekly-bar" class="progress-fill green"></div></div>
+                        </article>
+
+                        <article class="card kpi-card">
+                            <div class="kpi-top">
+                                <div>
+                                    <div class="kpi-label">7-Day Avg Sleep</div>
+                                    <div id="kpi-sleep" class="kpi-value tabular">0.0 hrs</div>
+                                </div>
+                                <div class="kpi-icon-box blue">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                                </div>
+                            </div>
+                            <div class="kpi-meta-row">
+                                <span id="kpi-streak-label" class="delta-up tabular">Streak: 0d</span>
+                                <span id="kpi-dist-sub" class="muted-meta tabular">Weekly dist: 0 km</span>
+                            </div>
+                            <div class="progress-track"><div id="kpi-sleep-bar" class="progress-fill blue"></div></div>
+                        </article>
+                    </div>
+
+                    <!-- Activity Overview + Type Breakdown -->
+                    <div class="asym-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Activity overview</h2>
+                                <div class="segmented-filter" id="dash-metric-tabs">
+                                    <button type="button" class="metric-tab-btn active" data-metric="calories">Calories</button>
+                                    <button type="button" class="metric-tab-btn" data-metric="duration">Duration</button>
+                                    <button type="button" class="metric-tab-btn" data-metric="sessions">Workouts</button>
+                                    <button type="button" class="metric-tab-btn" data-metric="steps">Steps</button>
+                                </div>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="dash-overview-chart" width="660" height="230"></canvas>
+                            </div>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Workout type breakdown</h2>
+                                <button type="button" class="link-btn" data-nav="workouts">View all</button>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="dash-breakdown-chart" width="420" height="230"></canvas>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Daily Goals Rings + Recommendations -->
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Goal completion rings</h2>
+                                <button type="button" class="link-btn" data-nav="goals">Configure targets</button>
+                            </div>
+                            <div id="dash-goal-rings" class="rings-grid"></div>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Recommended workouts</h2>
+                                <span id="dash-pref-label" class="muted-meta">Balanced</span>
+                            </div>
+                            <div id="dash-recommendations" class="rec-list"></div>
+                        </article>
+                    </div>
+
+                    <!-- Weekly Schedule Preview -->
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Weekly workout schedule (Mon–Sun)</h2>
+                            <button type="button" class="link-btn" data-nav="planner">Manage planner</button>
+                        </div>
+                        <div id="dash-week-board" class="week-board"></div>
+                    </article>
+
+                    <!-- Recent Activity & Achievements Preview -->
+                    <div class="asym-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Recent workouts (click for details)</h2>
+                                <button type="button" class="link-btn" data-nav="workouts">All workouts</button>
+                            </div>
+                            <div class="table-wrap">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Workout</th>
+                                            <th>Type</th>
+                                            <th class="num">Duration</th>
+                                            <th class="num">Calories</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dash-recent-tbody"></tbody>
+                                </table>
+                            </div>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Achievement preview</h2>
+                                <button type="button" class="link-btn" data-nav="achievements">All badges</button>
+                            </div>
+                            <div class="consistency-grid" style="margin-bottom: 12px;">
+                                <div class="consistency-metric">
+                                    <div class="kpi-label">Streak</div>
+                                    <div id="dash-current-streak" class="consistency-val tabular">0d</div>
+                                </div>
+                                <div class="consistency-metric">
+                                    <div class="kpi-label">Best</div>
+                                    <div id="dash-longest-streak" class="consistency-val tabular">0d</div>
+                                </div>
+                                <div class="consistency-metric">
+                                    <div class="kpi-label">Badges</div>
+                                    <div id="dash-achievement-count" class="consistency-val tabular">0/9</div>
+                                </div>
+                            </div>
+                            <div id="dash-achievements" class="rec-list"></div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- 2. MY WORKOUTS -->
+                <section id="page-workouts" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">My Workouts</h1>
+                            <p class="muted-text">Track workouts with 8 polymorphic types, interval timer, and advanced filtering</p>
+                        </div>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Workout &amp; interval timer</h2>
+                                <div class="segmented-filter">
+                                    <button type="button" class="timer-mode-btn active" data-mode="stopwatch">Stopwatch</button>
+                                    <button type="button" class="timer-mode-btn" data-mode="countdown">Countdown</button>
+                                </div>
+                            </div>
+                            <div class="timer-display tabular" id="timer-display">00:00</div>
+                            <div id="timer-countdown-config" class="inline-actions hidden" style="margin-bottom: 12px;">
+                                <label for="timer-minutes-input" class="muted-meta">Target minutes:</label>
+                                <input id="timer-minutes-input" type="number" min="1" max="180" value="20" class="compact-input" style="width: 90px;">
+                            </div>
+                            <div class="inline-actions">
+                                <button type="button" id="timer-start-btn" class="btn btn-primary">Start</button>
+                                <button type="button" id="timer-pause-btn" class="btn btn-secondary">Pause</button>
+                                <button type="button" id="timer-reset-btn" class="btn btn-ghost">Reset</button>
+                                <button type="button" id="timer-apply-btn" class="btn btn-secondary">Apply to duration</button>
+                            </div>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 id="workout-form-title" class="section-title">Log a workout</h2>
+                                <span id="workout-calorie-preview" class="preview-readout tabular">Estimated: -- kcal</span>
+                            </div>
+                            <form id="workout-form" class="grid-form" novalidate>
+                                <input type="hidden" id="workout-edit-id">
+                                <div class="form-group">
+                                    <label for="w-name">Workout name</label>
+                                    <input id="w-name" type="text" placeholder="e.g. Morning Tempo Run">
+                                </div>
+                                <div class="form-group">
+                                    <label for="w-type">Workout type</label>
+                                    <select id="w-type">
+                                        <option value="Walking">Walking</option>
+                                        <option value="Running">Running</option>
+                                        <option value="Cycling">Cycling</option>
+                                        <option value="Swimming">Swimming</option>
+                                        <option value="Yoga">Yoga</option>
+                                        <option value="Strength Training">Strength Training</option>
+                                        <option value="HIIT">HIIT</option>
+                                        <option value="Custom">Custom</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="w-duration">Duration (min)</label>
+                                    <input id="w-duration" type="number" min="1" max="1440" value="30" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="w-date">Date</label>
+                                    <input id="w-date" type="date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="w-intensity">Intensity</label>
+                                    <select id="w-intensity">
+                                        <option value="Low">Low</option>
+                                        <option value="Moderate" selected>Moderate</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="w-steps">Steps (optional)</label>
+                                    <input id="w-steps" type="number" min="0" value="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="w-distance">Distance (km)</label>
+                                    <input id="w-distance" type="number" min="0" step="0.1" value="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="w-notes">Notes</label>
+                                    <input id="w-notes" type="text" placeholder="Session notes or route">
+                                </div>
+                                <div class="form-group span-2 inline-actions-end">
+                                    <button type="button" id="w-preview-btn" class="btn btn-secondary">Preview calories</button>
+                                    <button type="button" id="w-cancel-edit-btn" class="btn btn-ghost hidden">Cancel edit</button>
+                                    <button type="submit" id="w-submit-btn" class="btn btn-primary">Save workout</button>
+                                </div>
+                            </form>
+                        </article>
+                    </div>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Workout history</h2>
+                        </div>
+                        <form id="workouts-filter-form" class="grid-form-4" style="margin-bottom: 14px;" novalidate>
+                            <div class="form-group">
+                                <label for="wf-q">Search</label>
+                                <input id="wf-q" type="text" placeholder="Name, type, or notes">
+                            </div>
+                            <div class="form-group">
+                                <label for="wf-type">Type</label>
+                                <select id="wf-type">
+                                    <option value="">All types</option>
+                                    <option value="Walking">Walking</option>
+                                    <option value="Running">Running</option>
+                                    <option value="Cycling">Cycling</option>
+                                    <option value="Swimming">Swimming</option>
+                                    <option value="Yoga">Yoga</option>
+                                    <option value="Strength Training">Strength Training</option>
+                                    <option value="HIIT">HIIT</option>
+                                    <option value="Custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="wf-intensity">Intensity</label>
+                                <select id="wf-intensity">
+                                    <option value="">All intensities</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Moderate">Moderate</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="wf-sort">Sort by</label>
+                                <select id="wf-sort">
+                                    <option value="date:desc">Date (Newest)</option>
+                                    <option value="date:asc">Date (Oldest)</option>
+                                    <option value="calories:desc">Calories (High–Low)</option>
+                                    <option value="calories:asc">Calories (Low–High)</option>
+                                    <option value="duration:desc">Duration (Long–Short)</option>
+                                    <option value="type:asc">Type (A–Z)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="wf-from">From date</label>
+                                <input id="wf-from" type="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="wf-to">To date</label>
+                                <input id="wf-to" type="date">
+                            </div>
+                            <div class="form-group span-2 inline-actions-end" style="align-self: end;">
+                                <button type="button" id="wf-reset-btn" class="btn btn-ghost">Reset</button>
+                                <button type="submit" class="btn btn-primary">Filter workouts</button>
+                            </div>
+                        </form>
+
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th class="num">Duration</th>
+                                        <th>Intensity</th>
+                                        <th class="num">Steps</th>
+                                        <th class="num">Distance</th>
+                                        <th class="num">Calories</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="workouts-tbody"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- 3. WORKOUT PLANNER -->
+                <section id="page-planner" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Weekly Workout Planner</h1>
+                            <p class="muted-text">Schedule Mon–Sun training sessions and mark completed to auto-log workouts</p>
+                        </div>
+                        <span id="planner-limit-label" class="status-label info tabular">0 / 7 plans</span>
+                    </div>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 id="planner-form-title" class="section-title">Create planned workout</h2>
+                        </div>
+                        <form id="planner-form" class="grid-form-4" novalidate>
+                            <input type="hidden" id="planner-edit-id">
+                            <div class="form-group">
+                                <label for="pl-day">Day</label>
+                                <select id="pl-day">
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pl-name">Workout name</label>
+                                <input id="pl-name" type="text" placeholder="e.g. Tempo 5K">
+                            </div>
+                            <div class="form-group">
+                                <label for="pl-type">Workout type</label>
+                                <select id="pl-type">
+                                    <option value="Walking">Walking</option>
+                                    <option value="Running">Running</option>
+                                    <option value="Cycling">Cycling</option>
+                                    <option value="Swimming">Swimming</option>
+                                    <option value="Yoga">Yoga</option>
+                                    <option value="Strength Training">Strength Training</option>
+                                    <option value="HIIT">HIIT</option>
+                                    <option value="Custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pl-minutes">Planned minutes</label>
+                                <input id="pl-minutes" type="number" min="5" max="300" value="30" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pl-intensity">Intensity</label>
+                                <select id="pl-intensity">
+                                    <option value="Low">Low</option>
+                                    <option value="Moderate" selected>Moderate</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <div class="form-group span-2">
+                                <label for="pl-notes">Notes</label>
+                                <input id="pl-notes" type="text" placeholder="Focus area or target pace">
+                            </div>
+                            <div class="form-group inline-actions-end" style="align-self: end;">
+                                <button type="button" id="pl-cancel-edit-btn" class="btn btn-ghost hidden">Cancel</button>
+                                <button type="submit" id="pl-submit-btn" class="btn btn-primary">Add to schedule</button>
+                            </div>
+                        </form>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Weekly schedule board</h2>
+                        </div>
+                        <div id="planner-week-board" class="week-board"></div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Scheduled sessions</h2>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Day</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th class="num">Minutes</th>
+                                        <th>Intensity</th>
+                                        <th>Notes</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="planner-tbody"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- 4. FITNESS GOALS -->
+                <section id="page-goals" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Fitness Goals</h1>
+                            <p class="muted-text">Set daily and weekly targets across steps, water, calories, workouts, active minutes, and distance</p>
+                        </div>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Target configuration</h2>
+                                <button type="button" id="suggest-goals-btn" class="btn btn-secondary btn-sm">Suggest targets</button>
+                            </div>
+                            <form id="goals-form" class="grid-form" novalidate>
+                                <div class="form-group">
+                                    <label for="g-steps">Daily step goal</label>
+                                    <input id="g-steps" type="number" min="500" max="100000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="g-water">Daily water goal (ml)</label>
+                                    <input id="g-water" type="number" min="500" max="10000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="g-weekly">Weekly workout goal</label>
+                                    <input id="g-weekly" type="number" min="1" max="21" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="g-calories">Daily calorie target (kcal)</label>
+                                    <input id="g-calories" type="number" min="100" max="5000" step="10" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="g-minutes">Weekly active minutes</label>
+                                    <input id="g-minutes" type="number" min="15" max="2000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="g-distance">Weekly distance (km)</label>
+                                    <input id="g-distance" type="number" min="1" max="1000" step="0.5" required>
+                                </div>
+                                <div class="form-group span-2">
+                                    <button type="submit" class="btn btn-primary">Save goals</button>
+                                </div>
+                            </form>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Current progress</h2>
+                            </div>
+                            <div id="goals-progress-bars" class="progress-stack"></div>
+                        </article>
+                    </div>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Goal update history</h2>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Recorded At</th>
+                                        <th class="num">Steps</th>
+                                        <th class="num">Water (ml)</th>
+                                        <th class="num">Workouts/wk</th>
+                                        <th class="num">Calories</th>
+                                        <th class="num">Active Min</th>
+                                        <th class="num">Distance (km)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="goals-history-tbody"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- 5. ACTIVITY TRACKER -->
+                <section id="page-activities" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Activity Tracker</h1>
+                            <p class="muted-text">Log daily steps and monitor combined movement across manual logs and workouts</p>
+                        </div>
+                    </div>
+
+                    <div class="three-col-grid">
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Today's Steps</div>
+                            <div id="act-today-steps" class="kpi-value tabular">0</div>
+                            <div id="act-step-target" class="muted-meta tabular">Target: 8,000</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">7-Day Total Steps</div>
+                            <div id="act-weekly-steps" class="kpi-value tabular">0</div>
+                            <div class="muted-meta">Combined steps</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Quick Step Presets</div>
+                            <div class="inline-actions" style="margin-top: 4px;">
+                                <button type="button" class="btn btn-secondary btn-sm step-preset-btn" data-steps="1000">+1,000</button>
+                                <button type="button" class="btn btn-secondary btn-sm step-preset-btn" data-steps="2500">+2,500</button>
+                                <button type="button" class="btn btn-secondary btn-sm step-preset-btn" data-steps="5000">+5,000</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Log daily steps / activity</h2>
+                            </div>
+                            <form id="activity-form" class="stack-form" novalidate>
+                                <div class="form-group">
+                                    <label for="act-steps-input">Steps</label>
+                                    <input id="act-steps-input" type="number" min="1" max="100000" value="2000" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="act-date-input">Date</label>
+                                    <input id="act-date-input" type="date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="act-source-input">Source label</label>
+                                    <input id="act-source-input" type="text" value="Daily Walk" placeholder="e.g. Commute, Afternoon Walk">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Log activity</button>
+                            </form>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Daily steps (last 7 days)</h2>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="steps-chart" width="520" height="230"></canvas>
+                            </div>
+                        </article>
+                    </div>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Activity records</h2>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Source</th>
+                                        <th class="num">Steps</th>
+                                        <th class="num">Active Min</th>
+                                        <th class="num">Calories</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activities-tbody"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- 6. WATER TRACKER -->
+                <section id="page-water" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Water Tracker</h1>
+                            <p class="muted-text">Log daily hydration intake and monitor your 7-day hydration chart</p>
+                        </div>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Today's hydration</h2>
+                                <span id="water-remaining-text" class="muted-meta tabular">Remaining: 2,500 ml</span>
+                            </div>
+                            <div class="water-summary">
+                                <div class="water-figures tabular">
+                                    <strong id="water-today-total">0 ml</strong>
+                                    <span class="muted-meta">of <span id="water-today-target">2,500 ml</span></span>
+                                </div>
+                                <div class="progress-track"><div id="water-progress-bar" class="progress-fill blue"></div></div>
+                            </div>
+                            <div class="inline-actions water-presets">
+                                <button type="button" class="btn btn-secondary water-preset-btn" data-ml="250">+250 ml</button>
+                                <button type="button" class="btn btn-secondary water-preset-btn" data-ml="500">+500 ml</button>
+                                <button type="button" class="btn btn-secondary water-preset-btn" data-ml="750">+750 ml</button>
+                                <button type="button" class="btn btn-secondary water-preset-btn" data-ml="1000">+1000 ml</button>
+                            </div>
+                            <form id="water-form" class="grid-form" novalidate>
+                                <div class="form-group">
+                                    <label for="water-amount">Amount (ml)</label>
+                                    <input id="water-amount" type="number" min="1" max="5000" value="300" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="water-date">Date</label>
+                                    <input id="water-date" type="date" required>
+                                </div>
+                                <div class="form-group span-2">
+                                    <label for="water-note">Note</label>
+                                    <input id="water-note" type="text" placeholder="e.g. Post-workout bottle">
+                                </div>
+                                <div class="form-group span-2">
+                                    <button type="submit" class="btn btn-primary">Add water entry</button>
+                                </div>
+                            </form>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Weekly water intake (ml)</h2>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="water-chart" width="520" height="240"></canvas>
+                            </div>
+                        </article>
+                    </div>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Recent hydration logs</h2>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th class="num">Amount</th>
+                                        <th>Note</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="water-tbody"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- 7. SLEEP TRACKER -->
+                <section id="page-sleep" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Sleep Tracker</h1>
+                            <p class="muted-text">Log sleep duration and quality to review weekly consistency trends</p>
+                        </div>
+                    </div>
+
+                    <div class="three-col-grid">
+                        <article class="card kpi-card">
+                            <div class="kpi-label">7-Day Avg Duration</div>
+                            <div id="sleep-avg-label" class="kpi-value tabular">0.0 hrs</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">7-Day Avg Quality</div>
+                            <div id="sleep-quality-label" class="kpi-value tabular">0.0 / 5</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Nights Logged (7d)</div>
+                            <div id="sleep-nights-label" class="kpi-value tabular">0 nights</div>
+                        </article>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Log sleep entry</h2>
+                            </div>
+                            <form id="sleep-form" class="grid-form" novalidate>
+                                <div class="form-group">
+                                    <label for="s-date">Date</label>
+                                    <input id="s-date" type="date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="s-hours">Hours slept</label>
+                                    <input id="s-hours" type="number" min="0.5" max="24" step="0.5" value="7.5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="s-quality">Quality (1–5)</label>
+                                    <select id="s-quality">
+                                        <option value="5">5 - Very Rested</option>
+                                        <option value="4" selected>4 - Good</option>
+                                        <option value="3">3 - Fair</option>
+                                        <option value="2">2 - Light</option>
+                                        <option value="1">1 - Poor</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="s-notes">Notes</label>
+                                    <input id="s-notes" type="text" placeholder="Sleep notes">
+                                </div>
+                                <div class="form-group span-2">
+                                    <button type="submit" class="btn btn-primary">Save sleep log</button>
+                                </div>
+                            </form>
+                            <div class="divider-line"></div>
+                            <div id="sleep-insight-box" class="muted-text">Log sleep entries to review schedule consistency.</div>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Weekly sleep hours</h2>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="sleep-chart" width="520" height="240"></canvas>
+                            </div>
+                        </article>
+                    </div>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Sleep history</h2>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th class="num">Hours</th>
+                                        <th class="num">Quality</th>
+                                        <th>Notes</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sleep-tbody"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- 8. WEIGHT HISTORY -->
+                <section id="page-weight" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Weight History</h1>
+                            <p class="muted-text">Record body weight entries, filter by date, and track trends over time</p>
+                        </div>
+                    </div>
+
+                    <div class="three-col-grid">
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Current Profile Weight</div>
+                            <div id="wt-current-val" class="kpi-value tabular">0.0 kg</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Range Change</div>
+                            <div id="wt-change-val" class="kpi-value tabular">0.0 kg</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Reference BMI</div>
+                            <div id="wt-bmi-val" class="kpi-value tabular">--</div>
+                        </article>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 id="wt-form-title" class="section-title">Log weight entry</h2>
+                            </div>
+                            <form id="weight-form" class="grid-form" novalidate>
+                                <input type="hidden" id="wt-edit-id">
+                                <div class="form-group">
+                                    <label for="wt-kg">Weight (kg)</label>
+                                    <input id="wt-kg" type="number" min="20" max="350" step="0.1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wt-date">Recorded date</label>
+                                    <input id="wt-date" type="date" required>
+                                </div>
+                                <div class="form-group span-2 inline-actions-end">
+                                    <button type="button" id="wt-cancel-edit" class="btn btn-ghost hidden">Cancel</button>
+                                    <button type="submit" id="wt-submit-btn" class="btn btn-primary">Save weight</button>
+                                </div>
+                            </form>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Filter weight entries</h2>
+                            </div>
+                            <form id="weight-filter-form" class="grid-form" novalidate>
+                                <div class="form-group">
+                                    <label for="wt-from">From</label>
+                                    <input id="wt-from" type="date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="wt-to">To</label>
+                                    <input id="wt-to" type="date">
+                                </div>
+                                <div class="form-group span-2 inline-actions-end">
+                                    <button type="button" id="wt-filter-reset" class="btn btn-ghost">Reset</button>
+                                    <button type="submit" class="btn btn-secondary">Apply date filter</button>
+                                </div>
+                            </form>
+                        </article>
+                    </div>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Weight trend chart (kg)</h2>
+                        </div>
+                        <div class="chart-box">
+                            <canvas id="weight-page-chart" width="980" height="230"></canvas>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Weight log entries</h2>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th class="num">Weight (kg)</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="weight-tbody"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- 9. ACHIEVEMENTS -->
+                <section id="page-achievements" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Achievements &amp; Streaks</h1>
+                            <p class="muted-text">Automatic milestone evaluation backed by your workouts, steps, hydration, and sleep logs</p>
+                        </div>
+                    </div>
+
+                    <div class="three-col-grid">
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Current Streak</div>
+                            <div id="ach-current-streak" class="kpi-value tabular">0 days</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Longest Streak</div>
+                            <div id="ach-longest-streak" class="kpi-value tabular">0 days</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Badges Unlocked</div>
+                            <div id="ach-unlocked-count" class="kpi-value tabular">0 / 9</div>
+                        </article>
+                    </div>
+
+                    <div id="achievements-grid" class="badges-grid"></div>
+                </section>
+
+                <!-- 10. PROGRESS & ANALYTICS -->
+                <section id="page-reports" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Progress &amp; Analytics</h1>
+                            <p class="muted-text">Comprehensive fitness reporting with date filters, multi-chart analytics, CSV export, and printable PDF</p>
+                        </div>
+                        <div class="inline-actions no-print">
+                            <button type="button" id="print-report-btn" class="btn btn-secondary">Print / Save PDF</button>
+                            <button type="button" id="export-csv-btn" class="btn btn-primary">Export CSV</button>
+                        </div>
+                    </div>
+
+                    <article class="card no-print">
+                        <form id="report-filter-form" class="grid-form-4" novalidate>
+                            <div class="form-group">
+                                <label for="rep-preset">Range</label>
+                                <select id="rep-preset">
+                                    <option value="7d" selected>Last 7 days</option>
+                                    <option value="30d">Last 30 days</option>
+                                    <option value="3m">Last 3 months (Premium)</option>
+                                    <option value="6m">Last 6 months (Premium)</option>
+                                    <option value="all">All time</option>
+                                    <option value="custom">Custom range</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="rep-from">From date</label>
+                                <input id="rep-from" type="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="rep-to">To date</label>
+                                <input id="rep-to" type="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="rep-search">Search activity or notes</label>
+                                <input id="rep-search" type="text" placeholder="e.g. Swimming, HIIT">
+                            </div>
+                            <div class="form-group span-4 inline-actions-end">
+                                <button type="button" id="rep-reset-btn" class="btn btn-ghost">Reset</button>
+                                <button type="submit" class="btn btn-primary">Apply filter</button>
+                            </div>
+                        </form>
+                    </article>
+
+                    <div class="kpi-grid-4">
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Filtered Sessions</div>
+                            <div id="rep-total-sessions" class="kpi-value tabular">0</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Total Duration</div>
+                            <div id="rep-total-minutes" class="kpi-value tabular">0 min</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Total Calories</div>
+                            <div id="rep-total-calories" class="kpi-value tabular">0 kcal</div>
+                        </article>
+                        <article class="card kpi-card">
+                            <div class="kpi-label">Total Distance</div>
+                            <div id="rep-total-distance" class="kpi-value tabular">0.0 km</div>
+                        </article>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Daily calories trend</h2>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="weekly-calories-chart" width="520" height="230"></canvas>
+                            </div>
+                        </article>
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Calories by workout type</h2>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="workout-type-chart" width="520" height="230"></canvas>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">7-Day hydration trend (ml)</h2>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="rep-water-chart" width="520" height="210"></canvas>
+                            </div>
+                        </article>
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">7-Day sleep trend (hrs)</h2>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="rep-sleep-chart" width="520" height="210"></canvas>
+                            </div>
+                        </article>
+                    </div>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Weight trend (kg)</h2>
+                        </div>
+                        <div class="chart-box">
+                            <canvas id="weight-trend-chart" width="980" height="210"></canvas>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <div class="card-header">
+                            <h2 class="section-title">Detailed workout report</h2>
+                            <span id="rep-count-meta" class="muted-meta tabular">0 workouts</span>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th class="num">Duration</th>
+                                        <th>Intensity</th>
+                                        <th class="num">Steps</th>
+                                        <th class="num">Distance</th>
+                                        <th class="num">Calories</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reports-tbody"></tbody>
+                            </table>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- 11. PROFILE -->
+                <section id="page-profile" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">User Profile</h1>
+                            <p class="muted-text">Manage your personal biometrics, membership tier, and activity preferences</p>
+                        </div>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Membership &amp; BMI overview</h2>
+                                <span id="prof-badge-tag" class="status-label info">Regular Member</span>
+                            </div>
+                            <div class="bmi-banner">
+                                <div>
+                                    <div class="kpi-label">Body Mass Index (Reference)</div>
+                                    <div id="prof-bmi-score" class="bmi-score tabular">0.0</div>
+                                </div>
+                                <div id="prof-bmi-category" class="status-label neutral">Normal</div>
+                            </div>
+                            <p id="prof-tier-benefits" class="muted-text" style="margin-bottom: 12px;"></p>
+                            <div class="inline-notice">
+                                BMI is shown strictly as a general informational reference alongside your profile height and weight.
+                            </div>
+                        </article>
+
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Edit profile details</h2>
+                            </div>
+                            <form id="profile-form" class="grid-form" novalidate>
+                                <div class="form-group">
+                                    <label for="p-name">Full name</label>
+                                    <input id="p-name" type="text" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="p-email">Email (read-only)</label>
+                                    <input id="p-email" type="email" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="p-tier">Membership tier</label>
+                                    <select id="p-tier">
+                                        <option value="REGULAR">Regular Member (max 7 plans, 30d analytics)</option>
+                                        <option value="PREMIUM">Premium Member (max 50 plans, 6m analytics)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="p-preference">Activity preference</label>
+                                    <select id="p-preference">
+                                        <option value="Balanced">Balanced</option>
+                                        <option value="Cardio &amp; Endurance">Cardio &amp; Endurance</option>
+                                        <option value="Strength &amp; Muscle">Strength &amp; Muscle</option>
+                                        <option value="Mindfulness &amp; Flexibility">Mindfulness &amp; Flexibility</option>
+                                        <option value="Weight Management">Weight Management</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="p-age">Age</label>
+                                    <input id="p-age" type="number" min="10" max="120" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="p-gender">Gender</label>
+                                    <select id="p-gender">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                        <option value="Not Specified">Not Specified</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="p-height">Height (cm)</label>
+                                    <input id="p-height" type="number" min="50" max="260" step="0.5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="p-weight">Weight (kg)</label>
+                                    <input id="p-weight" type="number" min="20" max="350" step="0.5" required>
+                                </div>
+                                <div class="form-group span-2">
+                                    <button type="submit" class="btn btn-primary">Save profile</button>
+                                </div>
+                            </form>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- 12. SETTINGS -->
+                <section id="page-settings" class="page-view hidden">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Settings</h1>
+                            <p class="muted-text">Customize theme appearance, alert preferences, account security, and account deletion</p>
+                        </div>
+                    </div>
+
+                    <div class="two-col-grid">
+                        <article class="card">
+                            <div class="card-header">
+                                <h2 class="section-title">Appearance &amp; notifications</h2>
+                            </div>
+                            <form id="settings-form" class="stack-form" novalidate>
+                                <div class="form-group">
+                                    <label for="set-theme">Color theme</label>
+                                    <select id="set-theme">
+                                        <option value="light">Light mode</option>
+                                        <option value="dark">Dark mode</option>
+                                    </select>
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <strong>Workout reminders</strong>
+                                        <p class="muted-meta">Notify when daily workouts are pending</p>
+                                    </div>
+                                    <input id="set-workout-rem" type="checkbox" class="toggle-input">
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <strong>Water reminders</strong>
+                                        <p class="muted-meta">Prompt when daily hydration target is incomplete</p>
+                                    </div>
+                                    <input id="set-water-rem" type="checkbox" class="toggle-input">
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <strong>Goal alerts</strong>
+                                        <p class="muted-meta">Celebrate when daily step or workout targets are met</p>
+                                    </div>
+                                    <input id="set-goal-alerts" type="checkbox" class="toggle-input">
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <strong>Achievement alerts</strong>
+                                        <p class="muted-meta">Notify immediately when new milestone badges unlock</p>
+                                    </div>
+                                    <input id="set-ach-alerts" type="checkbox" class="toggle-input">
+                                </div>
+                                <div class="setting-row">
+                                    <div>
+                                        <strong>Weekly digest</strong>
+                                        <p class="muted-meta">Include weekly training &amp; recovery summaries</p>
+                                    </div>
+                                    <input id="set-weekly-digest" type="checkbox" class="toggle-input">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save preferences</button>
+                            </form>
+                        </article>
+
+                        <div class="stack-form">
+                            <article class="card">
+                                <div class="card-header">
+                                    <h2 class="section-title">Change password</h2>
+                                </div>
+                                <form id="password-form" class="stack-form" novalidate>
+                                    <div class="form-group">
+                                        <label for="pw-current">Current password</label>
+                                        <input id="pw-current" type="password" required autocomplete="current-password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pw-new">New password (min 6 chars)</label>
+                                        <input id="pw-new" type="password" required minlength="6" autocomplete="new-password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pw-confirm">Confirm new password</label>
+                                        <input id="pw-confirm" type="password" required minlength="6" autocomplete="new-password">
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary">Update password</button>
+                                </form>
+                            </article>
+
+                            <article class="card">
+                                <div class="card-header">
+                                    <h2 class="section-title">Account deletion</h2>
+                                </div>
+                                <p class="muted-text" style="margin-bottom: 12px;">
+                                    Permanently removes your FitTrack account along with all workouts, plans, water logs, sleep logs, and weight history.
+                                </p>
+                                <button type="button" id="delete-account-btn" class="btn btn-danger">Delete account</button>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- QUICK ADD WORKOUT MODAL -->
+    <div id="quick-workout-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="qw-title">
+        <div class="modal-card">
+            <div class="modal-head">
+                <h2 id="qw-title" class="section-title">Quick Add Workout</h2>
+                <button type="button" id="qw-close-btn" class="btn btn-ghost btn-sm">Close</button>
+            </div>
+            <form id="quick-workout-form" class="grid-form" novalidate>
+                <div class="form-group">
+                    <label for="qw-name">Workout name</label>
+                    <input id="qw-name" type="text" placeholder="e.g. Evening Run">
+                </div>
+                <div class="form-group">
+                    <label for="qw-type">Workout type</label>
+                    <select id="qw-type">
+                        <option value="Walking">Walking</option>
+                        <option value="Running">Running</option>
+                        <option value="Cycling">Cycling</option>
+                        <option value="Swimming">Swimming</option>
+                        <option value="Yoga">Yoga</option>
+                        <option value="Strength Training">Strength Training</option>
+                        <option value="HIIT">HIIT</option>
+                        <option value="Custom">Custom</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="qw-duration">Duration (min)</label>
+                    <input id="qw-duration" type="number" min="1" max="1440" value="30" required>
+                </div>
+                <div class="form-group">
+                    <label for="qw-date">Date</label>
+                    <input id="qw-date" type="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="qw-intensity">Intensity</label>
+                    <select id="qw-intensity">
+                        <option value="Low">Low</option>
+                        <option value="Moderate" selected>Moderate</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="qw-distance">Distance (km)</label>
+                    <input id="qw-distance" type="number" min="0" step="0.1" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="qw-steps">Steps</label>
+                    <input id="qw-steps" type="number" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="qw-notes">Notes</label>
+                    <input id="qw-notes" type="text" placeholder="Optional notes">
+                </div>
+                <div class="form-group span-2 inline-actions-end">
+                    <span id="qw-preview-label" class="preview-readout tabular" style="margin-right: auto;">Estimated: -- kcal</span>
+                    <button type="button" id="qw-preview-btn" class="btn btn-secondary">Preview</button>
+                    <button type="submit" class="btn btn-primary">Save workout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- WORKOUT DETAIL MODAL -->
+    <div id="workout-detail-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="wd-title">
+        <div class="modal-card">
+            <div class="modal-head">
+                <h2 id="wd-title" class="section-title">Workout Details</h2>
+                <button type="button" id="wd-close-btn" class="btn btn-ghost btn-sm">Close</button>
+            </div>
+            <div id="wd-body"></div>
+            <div class="inline-actions-end">
+                <button type="button" id="wd-edit-btn" class="btn btn-secondary">Edit workout</button>
+                <button type="button" id="wd-delete-btn" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM CONFIRMATION MODAL -->
+    <div id="confirm-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="cm-title">
+        <div class="modal-card" style="max-width: 420px;">
+            <div class="modal-head">
+                <h2 id="cm-title" class="section-title">Confirm action</h2>
+                <button type="button" id="cm-cancel-top" class="btn btn-ghost btn-sm">Close</button>
+            </div>
+            <p id="cm-message" class="muted-text" style="margin-bottom: 14px;"></p>
+            <div id="cm-password-wrap" class="form-group hidden" style="margin-bottom: 14px;">
+                <label for="cm-password-input">Enter your current password to confirm</label>
+                <input id="cm-password-input" type="password" placeholder="Current password">
+            </div>
+            <div class="inline-actions-end">
+                <button type="button" id="cm-cancel-btn" class="btn btn-secondary">Cancel</button>
+                <button type="button" id="cm-confirm-btn" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/charts.js"></script>
+    <script src="/app.js"></script>
+</body>
+</html>
